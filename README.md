@@ -1,6 +1,6 @@
 # AlmaLinux DevOps Lab
 
-A hands-on Linux administration project: a hardened AlmaLinux 9 web server built in Oracle VirtualBox, covering SSH key authentication, nginx, firewalld, SELinux, cron automation, backups, log analysis and troubleshooting drills.
+A hands-on Linux administration project: a hardened AlmaLinux 9 web server built in Oracle VirtualBox, covering SSH key authentication, nginx, firewalld, SELinux, cron automation, backups, log analysis, and troubleshooting.
 
 ## Environment
 - Oracle VirtualBox, AlmaLinux 9 VM (4 GB RAM, 2 CPUs, 100 GB disk)
@@ -24,7 +24,7 @@ A hands-on Linux administration project: a hardened AlmaLinux 9 web server built
 - Opened only the required services (`ssh`, `http`) and checked with `firewall-cmd --list-all`
 
 ### 3. SELinux
-- Found SELinux **disabled** (`SELINUX=disabled`), so re-enabled it: set `permissive`, touched `/.autorelabel`, rebooted for the filesystem relabel, checked for denials with `ausearch -m avc`, then switched to `enforcing`
+- Found SELinux **disabled** (`SELINUX=disabled`), so re-enabled it: set `permissive`, touched `/.autorelabel`, rebooted for the filesystem relabel, checked for denials with `ausearch -m avc`, then switched to enforcing mode
 - Served a custom site from `/srv/site`; the default label was `var_t`
 - Fixed the label permanently with `semanage fcontext` and `restorecon`, giving `httpd_sys_content_t`
 
@@ -52,11 +52,22 @@ A hands-on Linux administration project: a hardened AlmaLinux 9 web server built
 - **Two kinds of 403:** a wrong SELinux label leaves an AVC denial, while a file permission problem does not
 
 ## Screenshots
-Add screenshots to a `screenshots/` folder and link them here:
-- `screenshots/ssh-hardening.png`: password login rejected, key login accepted
-- `screenshots/selinux-labels.png`: label before and after
-- `screenshots/403-avc.png`: the 403 and the audit log denial
-- `screenshots/health-log.png`: cron health check output
+
+### SSH hardening
+![SSH hardening result](screenshots/ssh-hardening.png)
+*Password login rejected, while key-based login succeeds.*
+
+### SELinux label fix
+![SELinux label fix](screenshots/selinux-labels.png)
+*Before and after the SELinux context correction.*
+
+### 403 and AVC denial
+![403 forbidden and AVC denial](screenshots/403-avc.png)
+*The 403 response and the corresponding SELinux AVC audit log.*
+
+### Health check and monitoring
+![Health check output](screenshots/health-log.png)
+*Cron health check output showing services and system status.*
 
 ## Skills demonstrated
 Linux administration, SSH key authentication, firewalld, SELinux, nginx, cron, Bash scripting, log analysis, troubleshooting.
